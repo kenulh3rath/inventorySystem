@@ -20,7 +20,8 @@
 
 $mysqli = mysqli_init();
 $mysqli->ssl_set(NULL, NULL, "ca-bundle.crt", NULL, NULL);
-$mysqli->real_connect('aws.connect.psdb.cloud', 'h6bsu1h2335fxaq87uv7', 'pscale_pw_QcWIke1VfCJFa8bWNPAFR1hxjxnm7sJikEYsHOwFp84', 'captainsportsinventory');
+
+
 
 //    if (!$mysqli) {
 //        die("Connection failed: " . mysqli_connect_error($mysqli));
