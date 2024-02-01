@@ -13,7 +13,6 @@ include 'databaseConnection.php';
 
 
 <?php
-//    include_once('navbarAndSideBar.php');
 include "navbarAndSideBar.php";
 ?>
 
@@ -21,8 +20,8 @@ include "navbarAndSideBar.php";
 <div class="p-4 sm:ml-64">
 
 
-
 </div>
+
 
 <script>
     // Select the element

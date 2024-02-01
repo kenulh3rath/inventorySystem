@@ -32,7 +32,21 @@ if (isset($_POST['submit']))
     exit;
 }
 
+$start = 0;
+$rowsPerPage = 1;  // number of results to show per page
 
+if (!empty($mysqli))
+{
+    $records = $mysqli->query("SELECT * FROM customers");
+    $nr_of_rows = $records->num_rows;
+
+    $pages = ceil($nr_of_rows / $rowsPerPage);
+
+    if(isset($_GET['page-nr'])){
+        $page = $_GET['page-nr'] - 1;
+        $start = $page * $rowsPerPage;
+    }
+}
 
 ?>
 
@@ -43,7 +57,17 @@ if (isset($_POST['submit']))
     <title>Title</title>
     <link rel="stylesheet" href="./output.css">
 </head>
-    <body>
+
+<?php
+    if(isset($_GET['page-nr'])){
+        $id = $_GET['page-nr'];
+    }
+    else
+    {
+        $id = 1;
+    }
+?>
+    <body id="<?php echo $id ?>">
 
 
     <?php
@@ -262,7 +286,8 @@ if (isset($_POST['submit']))
 
 
                 <?php
-                $sql = "SELECT * FROM customers";
+
+                $sql = "SELECT * FROM customers LIMIT  $start, $rowsPerPage";
                 if (!empty($mysqli)) {
                     $result = mysqli_query($mysqli, $sql);
 
@@ -303,6 +328,98 @@ if (isset($_POST['submit']))
                 </tbody>
             </table>
         </div>
+
+        <!-- Pagination -->
+        <div class="">
+            <?php
+                if (!isset($_GET['page-nr']))
+                {
+                    $page = 1;
+                }
+                else
+                {
+                    $page = $_GET['page-nr'];
+                }
+            ?>
+            showing <?php echo $page ?> of <?php echo $pages ?>
+        </div>
+
+        <div class="">
+            <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
+<!--                <span class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span class="font-semibold text-gray-900 dark:text-white">1-10</span> of <span class="font-semibold text-gray-900 dark:text-white">1000</span></span>-->
+                <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+                    <!-- First Page -->
+                    <li>
+                        <a href="?page-nr=1" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">First</a>
+                    </li>
+                    <!-- Previous Page -->
+                    <li>
+                        <?php
+                            if (isset($_GET['page-nr']) && $_GET['page-nr'] > 1)
+                            {
+                                ?>
+                                <a href="?page-nr=<?php echo $_GET['page-nr'] - 1 ?>" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>
+                                <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                                <?php
+                            }
+                        ?>
+                    </li>
+
+                    <!-- Page Numbers -->
+                    <?php
+                        for ($counter = 1; $counter <= $pages; $counter++)
+                        {
+                            ?>
+                            <li>
+                                <a href="?page-nr=<?php echo $counter ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?php echo $counter ?></a>
+                            </li>
+                            <?php
+                        }
+                    ?>
+                    <!-- Next Page -->
+                    <li>
+                        <?php
+                            if (!isset($_GET['page-nr']))
+                            {
+                                ?>
+                                <a href="?page-nr=2" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                                <?php
+                        }
+                            else
+                            {
+                                if ($_GET['page-nr'] >= $pages)
+                                {
+                                    ?>
+                                        <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                                        <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                        <a href="?page-nr=<?php echo $_GET['page-nr'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                                        <?php
+                                }
+                                ?>
+
+
+                                <?php
+                            }
+                        ?>
+
+                        </li>
+                    <!-- Last Page -->
+                    <li>
+                        <a href="?page-nr=<?php echo $pages ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Last</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
     </div>
 
     <script>
@@ -339,6 +456,12 @@ if (isset($_POST['submit']))
         setTimeout(function() {
             alertDiv.style.display = "none";
         }, 5000);
+    </script>
+    <script>
+        let links = document.querySelector('.page-numbers > a');
+        let bodyID = parseInt(document.body.id) - 1;
+        links[bodyID].classList.add('active');
+
     </script>
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
 </body>

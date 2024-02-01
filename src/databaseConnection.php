@@ -22,7 +22,6 @@ $mysqli = mysqli_init();
 $mysqli->ssl_set(NULL, NULL, "ca-bundle.crt", NULL, NULL);
 
 
-
 //    if (!$mysqli) {
 //        die("Connection failed: " . mysqli_connect_error($mysqli));
 //    }
