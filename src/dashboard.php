@@ -8,6 +8,8 @@ include 'databaseConnection.php';
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="./output.css">
+
+
 </head>
 <body>
 
@@ -17,10 +19,13 @@ include "navbarAndSideBar.php";
 ?>
 
 <!-- Main section -->
-<div class="p-4 sm:ml-64">
+<div  class="p-4 sm:ml-64">
+
 
 
 </div>
+
+
 
 
 <script>
@@ -42,6 +47,7 @@ include "navbarAndSideBar.php";
     element.className = classes.join(" ");
 
 </script>
+
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
 </body>
 </html>
