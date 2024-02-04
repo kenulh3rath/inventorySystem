@@ -33,7 +33,7 @@ if (isset($_POST['submit']))
 }
 
 $start = 0;
-$rowsPerPage = 1;  // number of results to show per page
+$rowsPerPage = 2;  // number of results to show per page
 
 if (!empty($mysqli))
 {
