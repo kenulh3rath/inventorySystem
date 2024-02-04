@@ -8,6 +8,8 @@ include 'databaseConnection.php';
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="./output.css">
+
+
 </head>
 <body>
 
@@ -17,7 +19,8 @@ include "navbarAndSideBar.php";
 ?>
 
 <!-- Main section -->
-<div class="p-4 sm:ml-64">
+<div  class="p-4 sm:ml-64">
+
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <div class="text-gray-500  dark:text-white dark:bg-gray-800  ">
@@ -75,6 +78,8 @@ include "navbarAndSideBar.php";
 </div>
 
 
+
+
 <script>
     // Select the element
     var element = document.getElementById("dashboard_page");
@@ -94,6 +99,7 @@ include "navbarAndSideBar.php";
     element.className = classes.join(" ");
 
 </script>
+
 <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
 </body>
 </html>
